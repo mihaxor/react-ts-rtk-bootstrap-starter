@@ -1,0 +1,14 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+resources:
+- ../../base
+configMapGenerator:
+- name: react-ts-rtk-bootstrap-starter
+  behavior: merge
+  envs:
+  - application.properties
+patches:
+- target:
+    kind: Deployment
+    name: react-ts-rtk-bootstrap-starter
+  path: resources.yaml

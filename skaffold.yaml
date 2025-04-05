@@ -1,0 +1,49 @@
+apiVersion: skaffold/v4beta6
+kind: Config
+metadata:
+  name: react-ts-rtk-bootstrap-starter
+build:
+  artifacts:
+    - image: react-ts-rtk-bootstrap-starter
+      docker:
+        dockerfile: Dockerfile
+  tagPolicy:
+    gitCommit:
+      variant: AbbrevCommitSha
+  local:
+    push: false
+deploy:
+  kubectl: {}
+  statusCheckDeadlineSeconds: 240
+profiles:
+  - name: push
+    build:
+      local:
+        push: true
+  - name: pp
+    manifests:
+      kustomize:
+        buildArgs:
+          - '--enable-alpha-plugins'
+        paths:
+          - deployment-configuration/profiles/pp
+    deploy:
+      kubectl: {}
+  - name: prod
+    manifests:
+      kustomize:
+        buildArgs:
+          - '--enable-alpha-plugins'
+        paths:
+          - deployment-configuration/profiles/prod
+    deploy:
+      kubectl: {}
+manifests:
+  kustomize:
+    paths:
+      - .
+portForward:
+  - resourceType: deployment
+    resourceName: react-ts-rtk-bootstrap-starter
+    port: 3000
+    localPort: 3000

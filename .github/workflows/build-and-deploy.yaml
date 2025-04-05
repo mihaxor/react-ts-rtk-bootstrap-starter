@@ -1,0 +1,64 @@
+name: Build and Deploy to Kubernetes
+
+on:
+#  push:
+#    branches: [ "master" ]
+  workflow_dispatch:
+
+env:
+  REGISTRY: ghcr.io
+  GITHUB_SHA_SHORT: ${{ github.sha }}
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+
+    permissions:
+      contents: read
+      packages: write
+      id-token: write
+
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: Set short SHA
+        run: echo "GITHUB_SHA_SHORT=$(echo ${{ github.sha }} | head -c 7)" >> $GITHUB_ENV
+
+      - name: Log into GitHub Container Registry
+        uses: docker/login-action@v3
+        with:
+          registry: ${{ env.REGISTRY }}
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Install doctl
+        uses: digitalocean/action-doctl@v2
+        with:
+          token: ${{ secrets.K8S_DO_ACCESS_TOKEN }}
+
+      - name: Set up Kubernetes context
+        env:
+          KUBE_CONFIG: ${{ secrets.KUBECONFIG }}
+        run: |
+          mkdir -p ~/.kube
+          echo "${{ secrets.K8S_KUBE_CONFIG }}" > ~/.kube/config
+          doctl kubernetes cluster kubeconfig save "${{ secrets.K8S_CLUSTER_NAME }}"
+
+      - name: Install Skaffold
+        run: |
+          curl -Lo skaffold https://storage.googleapis.com/skaffold/releases/latest/skaffold-linux-amd64
+          chmod +x skaffold
+          sudo mv skaffold /usr/local/bin
+
+      - name: Build and push Docker image with Skaffold
+        run: |
+          skaffold build --push=true \
+            --default-repo=${{ env.REGISTRY }}/${{ github.actor }} \
+            --tag=${{ env.GITHUB_SHA_SHORT }}
+
+      - name: Deploy to Kubernetes with Skaffold
+        run: |
+          skaffold deploy --profile pp \
+            --default-repo=${{ env.REGISTRY }}/${{ github.actor }} \
+            --tag=${{ env.GITHUB_SHA_SHORT }}

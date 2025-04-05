@@ -1,0 +1,17 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: react-ts-rtk-bootstrap-starter
+spec:
+  replicas: 2
+  template:
+    spec:
+      containers:
+      - name: react-ts-rtk-bootstrap-starter
+        resources:
+            limits:
+              cpu: 60m
+              memory: 230Mi
+            requests:
+              cpu: 50m
+              memory: 128Mi

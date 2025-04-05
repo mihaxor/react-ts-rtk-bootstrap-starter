@@ -1,0 +1,52 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: react-ts-rtk-bootstrap-starter
+spec:
+  selector:
+    matchLabels:
+      service: react-ts-rtk-bootstrap-starter
+  template:
+    metadata:
+      labels:
+        service: react-ts-rtk-bootstrap-starter
+    spec:
+      containers:
+        - image: react-ts-rtk-bootstrap-starter
+          imagePullPolicy: Always
+          name: react-ts-rtk-bootstrap-starter
+          ports:
+            - containerPort: 3000
+              protocol: TCP
+          readinessProbe:
+            failureThreshold: 3
+            httpGet:
+              path: /index.html
+              port: 3000
+              scheme: HTTP
+            initialDelaySeconds: 3
+            periodSeconds: 10
+            successThreshold: 1
+            timeoutSeconds: 1
+          envFrom:
+            - configMapRef:
+                name: react-ts-rtk-bootstrap-starter
+          securityContext:
+            allowPrivilegeEscalation: false
+            privileged: false
+            runAsNonRoot: true
+            runAsUser: 101
+            capabilities:
+              drop:
+                - NET_RAW
+      imagePullSecrets:
+        - name: ghcr-secret
+      affinity:
+        podAntiAffinity:
+          preferredDuringSchedulingIgnoredDuringExecution:
+            - weight: 50
+              podAffinityTerm:
+                labelSelector:
+                  matchLabels:
+                    service: react-ts-rtk-bootstrap-starter
+                topologyKey: kubernetes.io/hostname

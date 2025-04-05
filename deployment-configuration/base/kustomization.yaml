@@ -1,0 +1,7 @@
+resources:
+  - templates/deployment.yaml
+  - templates/service.yaml
+configMapGenerator:
+  - name: react-ts-rtk-bootstrap-starter
+    envs:
+      - application.properties
