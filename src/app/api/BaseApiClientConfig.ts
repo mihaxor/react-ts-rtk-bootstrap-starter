@@ -1,6 +1,6 @@
 import axios, {AxiosInstance} from 'axios';
 import axiosRetry from 'axios-retry';
-import {createTypiPostApi} from '@/common/api/createTypiPostApi';
+import {typiPostCreateApi} from '@/common/store';
 
 const DEFAULT_RETRIES = 1;
 const DEFAULT_RETRY_DELAY = 1000;
@@ -43,7 +43,7 @@ export const BaseApiClientConfig = () => {
     //         });
     //     });
 
-    const typiPostApi = createTypiPostApi(client);
+    const typiPostApi = typiPostCreateApi(client);
 
     return {
         ...typiPostApi

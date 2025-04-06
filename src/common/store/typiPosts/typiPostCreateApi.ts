@@ -1,13 +1,7 @@
 import {AxiosInstance} from 'axios';
+import {PostType} from '@/common/store';
 
-type PostType = {
-    userId: number;
-    id: number;
-    title: string;
-    body: string;
-}
-
-export const createTypiPostApi = (client: AxiosInstance) => {
+export const typiPostCreateApi = (client: AxiosInstance) => {
     const
         getPosts = async (): Promise<PostType[]> =>
             await client.get(`/posts`)

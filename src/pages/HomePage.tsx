@@ -1,7 +1,7 @@
 import {Col, Row} from 'react-bootstrap';
 import React from 'react';
 import CardComp from '@/common/components/CardComp';
-import {usePosts} from '@/common/hooks/usePosts';
+import {usePosts} from '@/common/hooks';
 
 const HomePage: React.FC = () => {
 

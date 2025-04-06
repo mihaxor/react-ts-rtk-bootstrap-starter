@@ -1,4 +1,4 @@
-import {useGetPostsQuery, useUpdatePostMutation} from '@/common/store/account/TypiPostInfoApi';
+import {useGetPostsQuery, useUpdatePostMutation} from '@/common/store';
 
 export const usePosts = () => {
     const {data: posts, isLoading: postsIsLoading, isError} = useGetPostsQuery();

@@ -1,4 +1,4 @@
-import {useGetPostByIdQuery} from '@/common/store/account/TypiPostInfoApi';
+import {useGetPostByIdQuery} from '@/common/store';
 
 export const usePostById = (id: number) => {
     const {data: postById} = useGetPostByIdQuery(id);

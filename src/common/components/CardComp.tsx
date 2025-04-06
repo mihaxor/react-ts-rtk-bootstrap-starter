@@ -2,15 +2,8 @@ import {Badge, Button, Card, Stack} from 'react-bootstrap';
 import React, {useEffect, useState} from 'react';
 import {useOutletContext} from 'react-router';
 import {useDispatch} from 'react-redux';
-import {updateCardsPayload} from '@/common/store';
-import {usePosts} from '@/common/hooks/usePosts';
-
-type PostType = {
-    userId: number;
-    id: number;
-    title: string;
-    body: string;
-}
+import {PostType, updatePostsPayload} from '@/common/store';
+import {usePosts} from '@/common/hooks';
 
 const CardComp: React.FC<PostType> = props => {
 
@@ -21,7 +14,7 @@ const CardComp: React.FC<PostType> = props => {
     const {userId, title, body} = props;
 
     useEffect(() => {
-        dispatch(updateCardsPayload(count));
+        dispatch(updatePostsPayload(count));
     }, [count]); // eslint-disable-line react-hooks/exhaustive-deps
 
     const truncateWords = (str: string, maxWords: number): string => {

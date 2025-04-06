@@ -1,19 +1,10 @@
 import {BaseApi} from '@/app/api/BaseApi';
 import {BaseApiClientConfig} from '@/app/api/BaseApiClientConfig';
+import {PostType, PostTypeRequest, PostTypeResponse} from '@/common/store';
 
-type PostType = {
-    userId: number;
-    id: number;
-    title: string;
-    body: string;
-}
-
-type PostTypeRes = PostType[];
-type PostTypeReq = number
-
-export const TypiPostInfoApi = BaseApi.injectEndpoints({
+export const typiPostInfoApi = BaseApi.injectEndpoints({
     endpoints: build => ({
-        getPosts: build.query<PostTypeRes, void>({
+        getPosts: build.query<PostTypeResponse, void>({
             query: () => {
                 return async () => await BaseApiClientConfig().getPosts();
             },
@@ -29,7 +20,7 @@ export const TypiPostInfoApi = BaseApi.injectEndpoints({
             },
             providesTags: ['Posts']
         }),
-        updatePost: build.mutation<PostTypeRes, PostTypeReq>({
+        updatePost: build.mutation<PostTypeResponse, PostTypeRequest>({
             query: (id: number) => () => BaseApiClientConfig().updatePost(id),
             // query: () => ({
             //     url: '/posts',
@@ -45,7 +36,7 @@ export const TypiPostInfoApi = BaseApi.injectEndpoints({
                     const {data} = await queryFulfilled;
 
                     dispatch(
-                        TypiPostInfoApi.util.updateQueryData('getPosts', undefined, cached => {
+                        typiPostInfoApi.util.updateQueryData('getPosts', undefined, cached => {
                             if (cached) return data;
                         }),
                     );
@@ -61,4 +52,4 @@ export const {
     useGetPostsQuery,
     useGetPostByIdQuery,
     useUpdatePostMutation
-} = TypiPostInfoApi;
+} = typiPostInfoApi;
