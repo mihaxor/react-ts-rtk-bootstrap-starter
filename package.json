@@ -17,7 +17,7 @@
   },
   "dependencies": {
     "@popperjs/core": "^2.11.8",
-    "@reduxjs/toolkit": "^2.6.1",
+    "@reduxjs/toolkit": "^2.7.0",
     "axios": "^1.8.4",
     "axios-retry": "^4.5.0",
     "bootstrap": "^5.3.5",
