@@ -3,13 +3,13 @@ import HomePage from '@/pages/HomePage';
 import AboutPage from '@/pages/AboutPage';
 import ContactPage from '@/pages/ContactPage';
 
-type RouteConfig = {
+interface RouteConfig {
     path: string,
     component: React.ComponentType,
     exact?: boolean
 }
 
-export const RoutesConfig = <RouteConfig[]>[
+export const RoutesConfig = [
     {
         path: '/home',
         component: HomePage,
@@ -23,4 +23,4 @@ export const RoutesConfig = <RouteConfig[]>[
         path: '/contact',
         component: ContactPage
     }
-];
+] as RouteConfig[];

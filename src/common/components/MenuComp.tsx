@@ -2,7 +2,7 @@ import React from 'react';
 import {useNavigate} from 'react-router';
 import {Button, Col, Stack} from 'react-bootstrap';
 
-type MenuComponentProps = {
+interface MenuComponentProps {
     theme: string
 }
 
