@@ -3,6 +3,7 @@ import importPlugin from 'eslint-plugin-import'
 import reactRefresh from 'eslint-plugin-react-refresh';
 import reactHooks from 'eslint-plugin-react-hooks';
 import tsParser from '@typescript-eslint/parser';
+import vitest from '@vitest/eslint-plugin';
 import eslintJs from '@eslint/js';
 import eslintTs from 'typescript-eslint';
 
@@ -15,11 +16,15 @@ export default eslintTs.config([
     {
         plugins: {
             'import/parsers': tsParser,
-            'react-hooks': reactHooks
+            'react-hooks': reactHooks,
+            'vitest': vitest
         },
         languageOptions: {
             ecmaVersion: 2020,
-            globals: globals.browser,
+            globals: {
+                ...globals.browser,
+                ...vitest.environments.env.globals,
+            },
             parser: tsParser,
             parserOptions: {
                 projectService: true,
@@ -30,17 +35,21 @@ export default eslintTs.config([
             'import/parsers': {
                 '@typescript-eslint/parser': ['.ts', '.tsx'],
             },
+            vitest: {
+                typecheck: true,
+            },
         },
         extends: [
             importPlugin.flatConfigs.recommended,
             importPlugin.flatConfigs.typescript,
-            reactRefresh.configs.vite
+            reactRefresh.configs.vite,
+            reactHooks.configs.flat.recommended,
+            vitest.configs.recommended
         ],
         rules: {
-            ...reactHooks.configs['recommended-latest'].rules,
             'import/no-duplicates': 'warn',
             'react-refresh/only-export-components': [
-                'warn', { allowConstantExport: true, }
+                'warn', { allowConstantExport: true }
             ],
             '@typescript-eslint/no-unused-vars': 'off',
             '@typescript-eslint/no-unused-expressions': 'off',
@@ -52,6 +61,12 @@ export default eslintTs.config([
             'no-duplicate-imports': 'error',
             'no-unneeded-ternary': 'error',
             'prefer-object-spread': 'error',
-            'react-hooks/rules-of-hooks': 'error'
+            'react-hooks/rules-of-hooks': 'error',
+            'react-hooks/exhaustive-deps': 'off',
+            // 'react-hooks/immutability': 'off',
+            // 'react-hooks/set-state-in-effect': 'off',
+            // 'react-hooks/incompatible-library': 'off',
+            // 'react-hooks/purity': 'off',
+            'vitest/no-conditional-expect': 'off'
         },
     }]);

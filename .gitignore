@@ -9,6 +9,7 @@ lerna-debug.log*
 
 build
 node_modules
+coverage
 dist
 dist-ssr
 *.local
@@ -24,6 +25,7 @@ dist-ssr
 *.sln
 *.sw?
 
+pnpm-lock.yaml
 package-lock.json
 yarn.lock
 *.iml

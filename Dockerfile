@@ -1,19 +1,20 @@
-FROM node:25.2.1-alpine
+FROM node:24.12.0-alpine3.22
 
 WORKDIR /app
 
 COPY package.json /app/
-#COPY yarn.lock /app/
+COPY scripts/ scripts/
 
-RUN corepack enable
-
-RUN yarn install
+RUN corepack enable pnpm
+RUN pnpm install
 
 COPY ./ /app/
 
-RUN yarn build
+RUN pnpm lint && VITEST_COVERAGE=false pnpm test
 
-RUN yarn global add serve
+ENV PNPM_HOME="/app/.pnpm-global"
+ENV PATH="$PNPM_HOME:$PATH"
+RUN pnpm add -g serve
 
 EXPOSE 3000
 CMD ["serve", "-s", "build"]

@@ -15,7 +15,7 @@ const CardComp: React.FC<PostType> = props => {
 
     useEffect(() => {
         dispatch(updatePostsPayload(count));
-    }, [count]); // eslint-disable-line react-hooks/exhaustive-deps
+    }, [count]);
 
     const truncateWords = (str: string, maxWords: number): string => {
         const words = str.trim().split(/\s+/);

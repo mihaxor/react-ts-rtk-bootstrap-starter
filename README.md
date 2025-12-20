@@ -20,9 +20,9 @@ Currently, two official plugins are available:
 
 ## Installation
 
-Install dependencies using Yarn or npm:
+Install dependencies using pnpm or npm:
     ```sh
-    yarn install
+    pnpm install
     # or
     npm install
     ```
@@ -31,6 +31,6 @@ Install dependencies using Yarn or npm:
 
 To start the development server, run:
 ```sh
-yarn start
+pnpm start
 # or
 npm start
